@@ -17,7 +17,10 @@ pipeline {
 
     stage('Build image') {
       steps{
+        
         script {
+          echo 'Hello Jag'
+          sh 'hostname'
           dockerImage = docker.build dockerimagename
         }
       }
