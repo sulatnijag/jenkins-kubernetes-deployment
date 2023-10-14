@@ -5,7 +5,7 @@ pipeline {
     dockerImage = ""
   }
 
-  agent any
+  agent kubernetes
 
   stages {
 
@@ -24,7 +24,9 @@ pipeline {
     }
 
     stage('Pushing Image') {
-
+      environment {
+               registryCredential = 'Dockerhub'
+           }
       steps{
         script {
           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
