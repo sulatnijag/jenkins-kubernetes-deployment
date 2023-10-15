@@ -7,7 +7,7 @@ spec:
     env:
     - name: CONTAINER_ENV_VAR
       value: jnlp
-  - name: maven
+  - name: docker-container
     image: docker:latest
     command:
     - sleep
@@ -15,12 +15,12 @@ spec:
     - 99d
     env:
     - name: CONTAINER_ENV_VAR
-      value: maven
-  - name: busybox
-    image: busybox
-    command:
-    - cat
-    tty: true
-    env:
-    - name: CONTAINER_ENV_VAR
-      value: busybox
+      value: docker-container
+  #- name: busybox
+  #  image: busybox
+  #  command:
+  #  - cat
+  #  tty: true
+  #  env:
+  #  - name: CONTAINER_ENV_VAR
+  #    value: busybox
