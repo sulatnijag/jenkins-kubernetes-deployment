@@ -12,7 +12,8 @@ pipeline {
         container('docker-container') {
           sh 'echo MAVEN_CONTAINER_ENV_VAR = ${CONTAINER_ENV_VAR}'
           sh 'docker --version'
-          sh 'docker build . sulatnijag/jenkinstest:1.0'
+          sh 'docker build .'
+          sh 'docker images'
         }
         /*
         container('busybox') {
