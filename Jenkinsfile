@@ -13,18 +13,11 @@ pipeline {
   
   stages {
 
-    stage('Clone repository') { 
-      steps { 
-        script{
-          checkout scm
-        }
-      }
-    }
-
     stage('Docker Build') { 
       steps { 
         script{
           dockerImage = docker.build dockerimagename
+          def customImage = docker.build("sulatnijag/node-app:${env.BUILD_ID}")
         }
       }
     }
