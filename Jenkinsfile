@@ -7,7 +7,7 @@ pipeline {
       steps {
 
           script{
-            dockerImage = docker.build("sulatnijag/testimage", "-f Dockerfile .")
+            sh 'docker build .'
           }
 
       }
