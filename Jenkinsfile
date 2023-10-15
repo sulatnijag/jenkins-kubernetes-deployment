@@ -12,7 +12,7 @@ pipeline {
         container('docker-container') {
           sh 'echo MAVEN_CONTAINER_ENV_VAR = ${CONTAINER_ENV_VAR}'
           sh 'docker --version'
-          sh 'sudo systemctl start docker'
+          sh 'dockerd &'
           sh 'docker build .'
           sh 'docker images'
         }
