@@ -4,9 +4,7 @@ pipeline {
   stages {
     stage('Build Image') {
       steps {
-        script {
-            sh 'docker build -t sulatnijag/testimage .'
-        }
+        echo 'xxxx..'
       }
     }
   }
