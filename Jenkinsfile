@@ -2,9 +2,14 @@ pipeline {
   agent any
 
   stages {
-    stage('Build Image') {
+
+    stage('docker build') {
       steps {
-        echo 'xxxx..'
+
+          script{
+            dockerImage = docker.build("sulatnijag/testimage", "-f Dockerfile .")
+          }
+
       }
     }
   }
