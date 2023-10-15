@@ -1,26 +1,23 @@
 pipeline {
-
-  environment {
-    dockerimagename = "sulatnijag/node-app"
-    dockerImage = ""
+  agent {
+    kubernetes {
+      yamlFile 'KubernetesPod.yaml'
+    }
   }
-  
-  options {
-    skipStagesAfterUnstable()
-  }
-  
-  agent any
-  
   stages {
-
-    stage('Docker Build') { 
-      steps { 
-        script{
-          def customImage = docker.build("sulatnijag/node-app:${env.BUILD_ID}")
+    stage('Run maven') {
+      steps {
+        sh 'set'
+        sh "echo OUTSIDE_CONTAINER_ENV_VAR = ${CONTAINER_ENV_VAR}"
+        container('maven') {
+          sh 'echo MAVEN_CONTAINER_ENV_VAR = ${CONTAINER_ENV_VAR}'
+          sh 'mvn -version'
+        }
+        container('busybox') {
+          sh 'echo BUSYBOX_CONTAINER_ENV_VAR = ${CONTAINER_ENV_VAR}'
+          sh '/bin/busybox'
         }
       }
     }
-
-
   }
 }
