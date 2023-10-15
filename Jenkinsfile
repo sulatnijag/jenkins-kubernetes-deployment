@@ -1,26 +1,12 @@
 pipeline {
-  agent {
-    kubernetes {
-      yamlFile 'KubernetesPod.yaml'
-    }
-  }
+  agent any
+
   stages {
-    stage('Run maven') {
+    stage('Build Image') {
       steps {
-        sh 'set'
-        sh "echo OUTSIDE_CONTAINER_ENV_VAR = ${CONTAINER_ENV_VAR}"
-        container('docker-container') {
-          sh 'echo MAVEN_CONTAINER_ENV_VAR = ${CONTAINER_ENV_VAR}'
-          sh 'docker --version'
-          sh 'dockerd &'
-          sh 'docker build .'
-          sh 'docker images'
+        script {
+            sh 'docker build -t sulatnijag/testimage .'
         }
-        /*
-        container('busybox') {
-          sh 'echo BUSYBOX_CONTAINER_ENV_VAR = ${CONTAINER_ENV_VAR}'
-          sh '/bin/busybox'
-        }*/
       }
     }
   }
