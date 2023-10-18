@@ -33,7 +33,6 @@ pipeline {
 
           sh 'docker --version'
           sh 'sleep 30'
-          sh 'curl --insecure https://registry-1.docker.io/v2/'
           sh 'docker build -t sulatnijag/jenkinstest:latest .'
         }
       }
