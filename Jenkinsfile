@@ -12,13 +12,14 @@ pipeline {
             - cat
             tty: true
             volumeMounts:
-            - mountPath: /var/run/docker.sock
-              name: docker-sock
+              - name: dind-storage
+                mountPath: /var/lib/docker
+            securityContext:
+              privileged: true
           
           volumes:
-            - name: docker-sock
-              hostPath:
-                path: /var/run/docker.sock
+            - name: dind-storage
+              mptyDir: {}
         '''
     }
   }
@@ -34,7 +35,6 @@ pipeline {
         container('docker') {
 
           sh 'docker --version'
-          sh 'docker run --privileged docker:dind'
           sh 'sleep 30'
           sh 'docker build -t sulatnijag/jenkinstest:latest .'
         }
