@@ -11,6 +11,9 @@ pipeline {
             command:
             - cat
             tty: true
+            volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
         '''
     }
   }
@@ -30,12 +33,16 @@ pipeline {
     }
     stage('Login') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        container('docker') {
+          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        }
       }
     }
     stage('Push') {
       steps {
-        sh 'docker push sulatnijag/jenkinstest:latest'
+        container('docker') {
+          sh 'docker push sulatnijag/jenkinstest:latest'
+        }
       }
     }
   }
