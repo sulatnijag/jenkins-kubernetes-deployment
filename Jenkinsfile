@@ -21,7 +21,7 @@ pipeline {
     }
   }
   options {
-    buildDiscarder(logRotator(numToKeepStr: '5'))
+    buildDiscarder(logRotator(numToKeepStr: '3'))
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub-credential')
@@ -33,7 +33,8 @@ pipeline {
 
           sh 'docker --version'
           sh 'sleep 30'
-          retry(3) {
+          retry(5) {
+            sh 'sleep 5'
             sh 'docker build -t sulatnijag/jenkinstest:latest .'
           }
         }
@@ -43,7 +44,8 @@ pipeline {
 
       steps {
         container('docker') {
-          retry(3) {
+          retry(5) {
+            sh 'sleep 5'
             sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
           }
         }
@@ -53,7 +55,8 @@ pipeline {
     stage('Push') {
       steps {
         container('docker') {
-          retry(3) {
+          retry(5) {
+            sh 'sleep 5'
             sh 'docker push sulatnijag/jenkinstest:latest'
           }
         }
@@ -63,7 +66,10 @@ pipeline {
   post {
     always {
       container('docker') {
-        sh 'docker logout'
+        retry(5) {
+          sh 'sleep 5'
+          sh 'docker logout'
+        }
       }
     }
   }
