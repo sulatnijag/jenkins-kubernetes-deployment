@@ -8,9 +8,6 @@ pipeline {
           containers:
           - name: docker
             image: docker:latest
-            command:
-            - cat
-            tty: true
             volumeMounts:
               - name: dind-storage
                 mountPath: /var/lib/docker
