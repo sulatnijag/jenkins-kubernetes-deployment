@@ -32,10 +32,8 @@ pipeline {
     stage('Build') {
       steps {
         container('docker') {
-          sh 'docker --version'
-          sh 'systemctl start docker'
           sh 'sleep 30'
-
+          sh 'docker --version'
           sh 'docker build -t sulatnijag/jenkinstest:latest .'
         }
       }
