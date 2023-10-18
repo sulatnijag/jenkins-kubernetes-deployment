@@ -32,8 +32,10 @@ pipeline {
     stage('Build') {
       steps {
         container('docker') {
-          sh 'sleep 30'
+
           sh 'docker --version'
+          sh 'docker run --privileged docker:dind'
+          sh 'sleep 30'
           sh 'docker build -t sulatnijag/jenkinstest:latest .'
         }
       }
