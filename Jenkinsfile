@@ -6,13 +6,8 @@ pipeline {
         kind: Pod
         spec:
           containers:
-          - name: maven
-            image: maven:alpine
-            command:
-            - cat
-            tty: true
-          - name: node
-            image: node:16-alpine3.12
+          - name: docker
+            image: docker:latest
             command:
             - cat
             tty: true
@@ -28,7 +23,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t sulatnijag/jenkinstest:latest .'
+        container('docker') {
+          sh 'docker build -t sulatnijag/jenkinstest:latest .'
+        }
       }
     }
     stage('Login') {
