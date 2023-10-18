@@ -33,21 +33,29 @@ pipeline {
 
           sh 'docker --version'
           sh 'sleep 30'
-          sh 'docker build -t sulatnijag/jenkinstest:latest .'
+          retry(3) {
+            sh 'docker build -t sulatnijag/jenkinstest:latest .'
+          }
         }
       }
     }
     stage('Login') {
+
       steps {
         container('docker') {
-          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          retry(3) {
+            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          }
         }
       }
+
     }
     stage('Push') {
       steps {
         container('docker') {
-          sh 'docker push sulatnijag/jenkinstest:latest'
+          retry(3) {
+            sh 'docker push sulatnijag/jenkinstest:latest'
+          }
         }
       }
     }
