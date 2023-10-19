@@ -13,7 +13,11 @@ pipeline {
                 mountPath: /var/lib/docker
             securityContext:
               privileged: true
-          
+          - name: kubectl
+            image: gcr.io/cloud-builders/kubectl
+            command:
+            - cat
+            tty: true
           volumes:
             - name: dind-storage
               mptyDir: {}
@@ -29,12 +33,18 @@ pipeline {
   stages {
 
 
+    stage('Test Container') {
+      steps {
+        container('kubectl') {
+          sh 'kubectl version'
+        }
+      }
+    }
+
 
     stage('Build') {
       steps {
         container('docker') {
-          sh 'kubectl version'
-
           sh 'docker --version'
           sh 'sleep 30'
           retry(5) {
@@ -44,6 +54,7 @@ pipeline {
         }
       }
     }
+
     stage('Login') {
 
       steps {
