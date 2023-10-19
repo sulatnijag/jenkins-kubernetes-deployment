@@ -27,9 +27,13 @@ pipeline {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub-credential')
   }
   stages {
+
+
+
     stage('Build') {
       steps {
         container('docker') {
+          sh 'kubectl version'
 
           sh 'docker --version'
           sh 'sleep 30'
