@@ -13,11 +13,7 @@ pipeline {
                 mountPath: /var/lib/docker
             securityContext:
               privileged: true
-          - name: kubectl
-            image: bitnami/kubectl:latest
-            command:
-            - cat
-            tty: true
+
           volumes:
             - name: dind-storage
               mptyDir: {}
@@ -33,17 +29,13 @@ pipeline {
   stages {
 
 
-    stage('Test Container') {
+    stage('Init') {
       steps {
 
         container('jnlp') {
           sh 'sleep 60'
         }
 
-        container('kubectl') {
-          sh 'sleep 60'
-          sh 'kubectl version'
-        }
       }
 
     }
