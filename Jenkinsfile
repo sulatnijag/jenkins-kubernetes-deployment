@@ -13,14 +13,9 @@ pipeline {
                 mountPath: /var/lib/docker
             securityContext:
               privileged: true
-            command:
-            - cat
-            tty: true
-            
-
           volumes:
             - name: dind-storage
-              mptyDir: {}
+              emptyDir: {}
         '''
     }
   }
@@ -31,18 +26,6 @@ pipeline {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub-credential')
   }
   stages {
-
-
-    stage('Test Container') {
-      steps {
-
-        container('jnlp') {
-          sh 'sleep 30'
-        }
-
-      }
-
-    }
 
 
     stage('Build') {
