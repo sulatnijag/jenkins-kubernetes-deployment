@@ -36,6 +36,7 @@ pipeline {
     stage('Test Container') {
       steps {
         container('kubectl') {
+          sh 'sleep 60'
           sh 'kubectl version'
         }
       }
@@ -46,7 +47,7 @@ pipeline {
       steps {
         container('docker') {
           sh 'docker --version'
-          sh 'sleep 30'
+          sh 'sleep 36'
           retry(5) {
             sh 'sleep 5'
             sh 'docker build -t sulatnijag/jenkinstest:latest .'
