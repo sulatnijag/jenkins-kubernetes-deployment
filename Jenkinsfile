@@ -35,11 +35,17 @@ pipeline {
 
     stage('Test Container') {
       steps {
+
+        container('jnlp') {
+          sh 'sleep 60'
+        }
+
         container('kubectl') {
           sh 'sleep 60'
           sh 'kubectl version'
         }
       }
+
     }
 
 
