@@ -17,11 +17,7 @@ pipeline {
             - cat
             tty: true
             
-          - name: kubectl
-            image: bitnami/kubectl:latest
-            command:
-            - cat
-            tty: true
+
           volumes:
             - name: dind-storage
               mptyDir: {}
@@ -44,16 +40,6 @@ pipeline {
           sh 'sleep 30'
         }
 
-      }
-
-    }
-
-    stage('Test Kubectl') {
-      steps {
-        container('kubectl') {
-          sh 'sleep 15'
-          sh 'kubectl version'
-        }
       }
 
     }
