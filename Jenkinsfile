@@ -13,6 +13,10 @@ pipeline {
                 mountPath: /var/lib/docker
             securityContext:
               privileged: true
+            command:
+            - cat
+            tty: true
+            
           - name: kubectl
             image: bitnami/kubectl:latest
             command:
@@ -40,8 +44,14 @@ pipeline {
           sh 'sleep 30'
         }
 
+      }
+
+    }
+
+    stage('Test Kubectl') {
+      steps {
         container('kubectl') {
-          sh 'sleep 30'
+          sh 'sleep 15'
           sh 'kubectl version'
         }
       }
