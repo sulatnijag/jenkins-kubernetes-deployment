@@ -13,7 +13,11 @@ pipeline {
                 mountPath: /var/lib/docker
             securityContext:
               privileged: true
-
+          - name: kubectl
+            image: bitnami/kubectl:latest
+            command:
+            - cat
+            tty: true
           volumes:
             - name: dind-storage
               mptyDir: {}
@@ -29,13 +33,17 @@ pipeline {
   stages {
 
 
-    stage('Init') {
+    stage('Test Container') {
       steps {
 
         container('jnlp') {
-          sh 'sleep 60'
+          sh 'sleep 30'
         }
 
+        container('kubectl') {
+          sh 'sleep 30'
+          sh 'kubectl version'
+        }
       }
 
     }
@@ -45,7 +53,7 @@ pipeline {
       steps {
         container('docker') {
           sh 'docker --version'
-          sh 'sleep 36'
+          sh 'sleep 30'
           retry(5) {
             sh 'sleep 5'
             sh 'docker build -t sulatnijag/jenkinstest:latest .'
