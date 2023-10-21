@@ -6,6 +6,11 @@ pipeline {
         kind: Pod
         spec:
           containers:
+          - name: "jnlp"
+            resources:
+              requests:
+                memory: "512Mi"
+                cpu: "200m"
           - name: docker
             image: docker:latest
             volumeMounts:
