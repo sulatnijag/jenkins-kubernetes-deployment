@@ -13,7 +13,8 @@ pipeline {
                 mountPath: /var/lib/docker
             securityContext:
               privileged: true
-            command: cat
+            command:
+            - cat
             tty: true
           volumes:
             - name: dind-storage
