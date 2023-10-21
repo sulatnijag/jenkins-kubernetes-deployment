@@ -9,13 +9,13 @@ pipeline {
           - name: "jnlp"
             resources:
               requests:
-                memory: "512Mi"
+                memory: "1Gi"
                 cpu: "200m"
           - name: docker
             image: docker:latest
             resources:
               requests:
-                memory: "1Gi"
+                memory: "512Mi"
                 cpu: "200m"
             volumeMounts:
               - name: dind-storage
