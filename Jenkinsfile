@@ -31,11 +31,19 @@ pipeline {
   stages {
 
 
+    stage('Initialize') {
+      steps {
+        container('jnlp') {
+          sh 'sleep 60'
+        }
+      }
+    }
+
     stage('Build') {
       steps {
         container('docker') {
           sh 'docker --version'
-          sh 'sleep 60'
+          sh 'sleep 30'
           retry(5) {
             sh 'sleep 5'
             sh 'docker build -t sulatnijag/jenkinstest:latest .'
