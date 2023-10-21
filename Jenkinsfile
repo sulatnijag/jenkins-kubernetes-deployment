@@ -13,6 +13,10 @@ pipeline {
                 cpu: "200m"
           - name: docker
             image: docker:latest
+            resources:
+              requests:
+                memory: "1Gi"
+                cpu: "200m"
             volumeMounts:
               - name: dind-storage
                 mountPath: /var/lib/docker
