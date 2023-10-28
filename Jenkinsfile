@@ -45,50 +45,12 @@ pipeline {
       }
     }
 
-    stage('Build') {
-      steps {
-        container('docker') {
-          sh 'docker --version'
-          sh 'sleep 60'
-          retry(5) {
-            sh 'sleep 5'
-            sh 'docker build -t sulatnijag/jenkinstest:latest .'
-          }
-        }
-      }
+  stage('Apply Kubernetes files') {
+    withKubeConfig([credentialsId: 'user1', serverUrl: 'https://api.k8s.my-company.com']) {
+      sh 'kubectl apply -f deployment.yaml'
     }
+  }
 
-    stage('Login') {
-
-      steps {
-        container('docker') {
-          retry(5) {
-            sh 'sleep 5'
-            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-          }
-        }
-      }
-
-    }
-    stage('Push') {
-      steps {
-        container('docker') {
-          retry(5) {
-            sh 'sleep 5'
-            sh 'docker push sulatnijag/jenkinstest:latest'
-          }
-        }
-      }
-    }
-
-
-    stage('Deploying container to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
-        }
-      }
-    }
 
 
   }
