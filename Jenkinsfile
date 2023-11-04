@@ -37,7 +37,7 @@ pipeline {
   stages {
 
     stage('Apply Kubernetes files') {
-      step {
+      steps {
         withKubeConfig([credentialsId: '2e5c14e5-af88-40fb-a793-6efef5716bff', serverUrl: 'https://kubernetes.default']) {
           sh 'kubectl apply -f service.yaml'
         }
