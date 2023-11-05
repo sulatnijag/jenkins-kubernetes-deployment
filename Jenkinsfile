@@ -24,10 +24,6 @@ pipeline {
               privileged: true
           - name: kubectl
             image: d3fk/kubectl:latest
-            resources:
-              requests:
-                memory: "512Mi"
-                cpu: "200m"
 
           volumes:
             - name: dind-storage
