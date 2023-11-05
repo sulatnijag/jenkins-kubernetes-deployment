@@ -24,7 +24,9 @@ pipeline {
               privileged: true
           - name: kubectl
             image: d3fk/kubectl:latest
-
+            command:
+              - "sleep"
+              - "604800"
           volumes:
             - name: dind-storage
               emptyDir: {}
