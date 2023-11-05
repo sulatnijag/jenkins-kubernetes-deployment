@@ -23,7 +23,7 @@ pipeline {
             securityContext:
               privileged: true
           - name: kubectl
-            image: d3fk/kubectl:latest
+            image: bitnami/kubectl:latest
             command:
               - "sleep"
               - "604800"
