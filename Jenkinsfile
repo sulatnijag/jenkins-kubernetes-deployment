@@ -22,6 +22,13 @@ pipeline {
                 mountPath: /var/lib/docker
             securityContext:
               privileged: true
+          - name: kubectl
+            image: d3fk/kubectl:latest
+            resources:
+              requests:
+                memory: "512Mi"
+                cpu: "200m"
+
           volumes:
             - name: dind-storage
               emptyDir: {}
@@ -38,7 +45,7 @@ pipeline {
 
     stage('Apply Kubernetes files') {
       steps {
-        container('docker') {
+        container('kubectl') {
           withKubeConfig([credentialsId: '2e5c14e5-af88-40fb-a793-6efef5716bff', serverUrl: 'https://kubernetes.default']) {
             sh 'kubectl apply -f service.yaml'
           }
