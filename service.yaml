@@ -17,7 +17,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: stripprefix
+  name: stripprefix-hello-world
   namespace: jenkins
 spec:
   stripPrefix:
@@ -28,11 +28,11 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: jenkins
+  name: hello-world
   namespace: jenkins
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - kind: Rule
       match: "Host(`xdork.duckdns.org`) && PathPrefix(`/hello-world/`)"
@@ -41,4 +41,4 @@ spec:
           name: hello-world
           port: 80
       middlewares:
-      - name: stripprefix
+      - name: stripprefix-hello-world
