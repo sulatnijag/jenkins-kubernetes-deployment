@@ -1,12 +1,44 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mydeployment #The name of the Kubernetes Service to be created in the Kubernetes cluster
+  namespace: jenkins
+  name: hello-world #The name of the Kubernetes Service to be created in the Kubernetes cluster
 spec:
   selector:
-    app: mydeployment
+    app: hello-world
   type: LoadBalancer #Type of the Kubernetes Service
   ports:
   - protocol: TCP
     port: 80 #Service port
     targetPort: 80 #The port for the React.js application container
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  namespace: jenkins
+spec:
+  stripPrefix:
+    prefixes:
+      - /hello-world
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: "Host(`xdork.duckdns.org`) && PathPrefix(`/hello-world/`)"
+      services:
+        - kind: Service
+          name: hello-world
+          port: 80
+      middlewares:
+      - name: stripprefix

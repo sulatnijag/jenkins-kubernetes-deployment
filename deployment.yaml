@@ -1,21 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mydeployment #The name of the Kubernetes Deployment to be created in the Kubernetes cluster
+  name: hello-world-deployment
+  namespace: jenkins
   labels:
-    app: mydeployment
+    app: hello-world
 spec:
-  replicas: 1 #The number of pods to be created in the Kubernetes cluster for the React.js application container
   selector:
     matchLabels:
-      app: mydeployment
-  template:
-    metadata:
-      labels:
-        app: mydeployment
-    spec:
-      containers:
-      - name: mydeployment #The name of the react.js application container
-        image: sulatnijag/jenkinstest:latest #The Docker image for building the React.js application container
-        ports:
-        - containerPort: 80 #The port for the React.js application   container
+      app: hello-world
+  replicas: 1
+  resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "200m"

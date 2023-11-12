@@ -5,6 +5,15 @@ metadata:
   namespace: jenkins
 spec:
   containers:
+  - name: kubectl
+    image: sulatnijag/xdork-agent:latest
+    resources:
+      requests:
+        memory: "256"
+        cpu: "250m"
+      limits:
+        memory: "1024Mi"
+        cpu: "500m"
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command:
@@ -43,6 +52,14 @@ spec:
       container(name: 'kaniko', shell: '/busybox/sh') {
           sh '''#!/busybox/sh
             /kaniko/executor --context `pwd` --destination sulatnijag/jenkinstest:latest
+          '''
+      }
+    }
+    
+    stage('Deploy container') {
+      container('kubectl') {
+          sh '''
+            kubectl get pods -A
           '''
       }
     }
