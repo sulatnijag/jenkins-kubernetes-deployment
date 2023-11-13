@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: hello-world
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -26,3 +26,19 @@ spec:
           requests:
             memory: 128Mi
             cpu: "80m"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: jenkins
+  name: hello-world #The name of the Kubernetes Service to be created in the Kubernetes cluster
+spec:
+  selector:
+    app: hello-world
+  type: LoadBalancer #Type of the Kubernetes Service
+  ports:
+  - protocol: TCP
+    port: 80 #Service port
+    targetPort: 80 #The port for the React.js application container
