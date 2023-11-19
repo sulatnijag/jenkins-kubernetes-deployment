@@ -32,7 +32,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: jenkins
   name: hello-world #The name of the Kubernetes Service to be created in the Kubernetes cluster
 spec:
   selector:
